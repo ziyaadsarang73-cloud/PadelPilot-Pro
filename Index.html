@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PadelPilot PRO - Sandbox</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body { background-color: #0f172a; color: white; margin: 0; font-family: sans-serif; padding-bottom: 100px; }
+        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* TAB VISIBILITY */
+        .tab-content { display: none; }
+        .active-tab { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* TAB SPECIFIC BANNERS */
+        .banner-arena { background: linear-gradient(45deg, #1e40af, #3b82f6); }
+        .banner-lab { background: linear-gradient(45deg, #0891b2, #22d3ee); }
+        .banner-tourney { background: linear-gradient(45deg, #7e22ce, #a855f7); }
+
+        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; z-index: 100; }
+    </style>
+</head>
+<body>
+
+    <div id="topBanner" class="banner-arena p-6 text-center shadow-2xl">
+        <h1 id="bannerTitle" class="text-3xl font-black italic tracking-tighter uppercase">THE ARENA</h1>
+        <p id="bannerSubtitle" class="text-[10px] font-bold opacity-70 tracking-[0.3em]">LIVE SESSION</p>
+    </div>
+
+    <div class="p-4 max-w-4xl mx-auto">
+
+        <div id="view-arena" class="tab-content active-tab space-y-6">
+            
+            <div class="glass p-5 rounded-3xl border border-yellow-400/30">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <p class="text-[10px] font-bold text-yellow-400 uppercase">📍 Location</p>
+                        <h2 class="text-lg font-bold">Constantia Hub</h2>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold text-yellow-400 uppercase">⏰ Time</p>
+                        <h2 class="text-lg font-bold">09:00 AM</h2>
+                    </div>
+                </div>
+                <button onclick="this.innerText='ARRIVED ✅'; this.classList.replace('bg-green-600','bg-gray-700')" class="w-full bg-green-600 text-white font-bold py-3 rounded-xl uppercase italic">Check In 🎾</button>
+            </div>
+
+            <div class="bg-gray-900/80 p-6 rounded-3xl border border-gray-700">
+                <h3 class="text-xs font-bold uppercase text-blue-400 mb-4 tracking-widest text-center">Meet Setup</h3>
+                </div>
+        </div>
+
+        <div id="view-lab" class="tab-content text-center py-20">
+            <div class="glass p-8 rounded-3xl inline-block">
+                <span class="text-5xl">🔒</span>
+                <h2 class="text-xl font-bold mt-4">Trainer Command</h2>
+                <button class="mt-4 bg-cyan-500 px-6 py-2 rounded-full font-bold text-xs">LOGIN</button>
+            </div>
+        </div>
+
+        <div id="view-tourney" class="tab-content text-center py-20">
+            <span class="text-5xl">🏆</span>
+            <h2 class="text-xl font-bold mt-4 italic">Tournament Mode</h2>
+            <p class="text-xs opacity-50">Locked for Beta Testing</p>
+        </div>
+
+    </div>
+
+    <div class="nav-dock glass p-2 rounded-[2.5rem] flex justify-around items-center border border-white/10">
+        <button onclick="switchTab('arena')" class="flex flex-col items-center p-2">
+            <span class="text-xl">🎾</span>
+            <span class="text-[9px] font-bold uppercase mt-1">Arena</span>
+        </button>
+        <button onclick="switchTab('lab')" class="flex flex-col items-center p-2 opacity-40">
+            <span class="text-xl">📊</span>
+            <span class="text-[9px] font-bold uppercase mt-1">Lab</span>
+        </button>
+        <button onclick="switchTab('tourney')" class="flex flex-col items-center p-2 opacity-40">
+            <span class="text-xl">🏆</span>
+            <span class="text-[9px] font-bold uppercase mt-1">Tourney</span>
+        </button>
+    </div>
+
+    <script>
+        // TAB SWITCHING LOGIC
+        function switchTab(tabId) {
+            // Update Content
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+            document.getElementById('view-' + tabId).classList.add('active-tab');
+
+            // Update Banner
+            const banner = document.getElementById('topBanner');
+            const title = document.getElementById('bannerTitle');
+            
+            if(tabId === 'arena') {
+                banner.className = 'banner-arena p-6 text-center shadow-2xl transition-all';
+                title.innerText = 'THE ARENA';
+            } else if(tabId === 'lab') {
+                banner.className = 'banner-lab p-6 text-center shadow-2xl transition-all';
+                title.innerText = 'TRAINER LAB';
+            } else if(tabId === 'tourney') {
+                banner.className = 'banner-tourney p-6 text-center shadow-2xl transition-all';
+                title.innerText = 'PRO TOURNEY';
+            }
+        }
+
+        // --- ALL YOUR ORIGINAL FIREBASE & MATCH LOGIC BELOW ---
+        // (Copy/Paste your upd, updateBoard, startRound, etc. here)
+    </script>
+</body>
+</html>
